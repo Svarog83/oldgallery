@@ -1,0 +1,6 @@
+# Zenphoto theme definition file
+name::Smooth
+author::Joen Asmussen, Mark Galeassi and <a href="http://smoothgallery.jondesign.net" target="_blank">JonDesign</a>
+version::1.0
+date::11/12/2007
+desc:: All the great stuff about the default theme but uses <a href="http://smoothgallery.jondesign.net" target="_blank">Smoothgallery</a> for image navigation.

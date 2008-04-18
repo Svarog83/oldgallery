@@ -1,0 +1,6 @@
+# Zenphoto theme definition file
+name::Default_tricasa
+author::<a href="http://www.noscope.com" target="_blank">Joen Asmussen</a> and <a href="http://www.levibuzolic.com" target="_blank">Levi Buzolic</a>. Modified by <a href="http://www.ulfben.com" target="_blank">ulfben</a>.
+version::1.7
+date::04/03/2008
+desc::The default theme with integrated <a href="http://www.zenphoto.org/support/topic.php?id=1335&replies=21">javascript preloading</a>. Modified to support larger images (800x600).

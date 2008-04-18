@@ -1,0 +1,6 @@
+# Zenphoto theme definition file
+name::JoshuaInk Theme
+author::<a href="http://www.gamedudex.com">Darrell Dudics (a.k.a. GameDudeX)</a>
+version::1.2
+date::07/01/2006
+desc::This theme was based on the design of John from <a href="http://joshuaink.com/">JoshuaInk.com</a>. The icons were taken from the Silk Icons collection at <a href="http://www.famfamfam.com/lab/icons/silk/">famfamfam.com</a>.

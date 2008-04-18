@@ -1,0 +1,9 @@
+# Zenphoto theme definition file
+name::ChaoticSoul	
+author::Richard Castellanos
+version::1
+date::03/19/2006
+desc::Chaotic Soul adaptation for Zenphoto
+
+Modified by: Benjamin Swatek
+date: 07/30/2006

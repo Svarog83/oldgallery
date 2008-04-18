@@ -1,0 +1,6 @@
+# Zenphoto theme definition file
+name::Thinkdreams Theme
+author::Craig Bush & Benjamin Crulli
+version::1.1
+date::11/09/2007
+desc::A dark theme based on the design from <a href="http://stopdesign.com/templates/photos/">Douglas Bowman</a> with many functionalities such as EXIF data, slideshow, reflection, and random picture with no modification to the core ZenPhoto code.

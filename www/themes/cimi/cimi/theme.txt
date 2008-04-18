@@ -1,0 +1,6 @@
+# Zenphoto theme definition file
+name::<a href="http://www.cimi.nl/">cimi</a>
+author::<a href="mailto:zenphoto@cimi.nl"><i>Pim Rijpsma</i></a>
+version::1.1
+date::06/06/2006
+desc::<a href="http://photo.cimi.nl/download/">cimi.nl/download</a> - check here for the latest version.
