@@ -159,10 +159,16 @@
 				</div>
 
 				<div id="prevnext">
-					<?php if (hasPrevImage()) { ?>
+					<?php if ( hasPrevImage() ) { ?>
 					<div id="prev"><span class="thumb"><span>
-						<em style="background-image:url('<?php echo getPrevImageThumb(); ?>')"><a href="<?php echo getPrevImageURL();?>" accesskey="z" style="background:#fff;"><strong style="width:190px; height:300px;">След: </strong>Crescent</a></em></span></span></div>
-						<?php } if (hasNextImage()) { ?>
+						
+					<em style="background-image:url('<?php echo getPrevImageThumb(); ?>')">
+						
+						<a href="<?php echo getPrevImageURL();?>" accesskey="z" style="background:#fff;"><strong style="width:190px; height:300px;">След: </strong>Crescent</a></em></span></span></div>
+						
+						<?php } 
+						
+						if ( hasNextImage( ) ) { ?>
 						<div id="next"><span class="thumb"><span>
 							<em style="background-image:url('<?php echo getNextImageThumb(); ?>')"><a href="<?php echo getNextImageURL();?>" accesskey="x" style="background:#fff;"><strong style="width:190px; height:300px;">Пред: </strong>Sagamor</a></em></span></span></div>
 						<?php } ?>
