@@ -97,9 +97,12 @@
 
 			<div class="galleryinfo">
 				<br />
-				<p><?php printRSSLink('Album', '', 'RSS Feed ', '', true, 'i'); ?></p>
-				<br />
 				<p>
+				<?php printRSSLink('Album', '', 'RSS Feed ', '', true, 'i'); ?></p>
+
+				<p style="font-weight;bold; color:red; "><?php printZIPLink('Album', '', 'Download in ZIP', '', true, ''); ?></p>
+
+				<br />
 				<?php 
 					if (!is_null($firstImage)) { 
 						echo '<em class="count">';
