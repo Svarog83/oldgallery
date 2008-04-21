@@ -393,8 +393,8 @@ Module showing all galleries in system
   background-image:none;
   float:left;
   position:relative;
-  width:220px;
-  height:6.4em;
+  width:170px;
+  height:130px;
   overflow:hidden;
   margin-bottom:0;
   padding:75px 0 1.6em 15px;
@@ -427,7 +427,7 @@ Module showing all galleries in system
   background:url("../img/bg_gal.gif") 11px -4px no-repeat;
   margin:0;
   }
-html>body .gal {
+html.body .gal {
   background-image:url("../img/bg_gal.png");
   }
 
