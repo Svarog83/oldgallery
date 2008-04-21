@@ -65,8 +65,11 @@
 					if (getImageEXIFData()) {
 						//echo "<a href=\"#TB_inline?height=345&width=300&inlineId=imagemetadata\" title=\"Image Info\" class=\"thickbox\">Image Info</a>";
 						printImageMetadata('Инфо о фото', true, ''); 
-					} 
-				?> / <a href="<?php echo getFullImageURL();?>" title="<?php echo getImageTitle();?>">Полный размер</a>
+					}
+					
+					list ( $width, $height ) = getSizeFullImage();
+					 
+				?> <a href="<?php echo getFullImageURL();?>" title="<?php echo getImageTitle();?>">Полный размер(<?php echo $width . 'x' . $height ?>)</a>
  					</li>
 				</ul>
 			</div>
@@ -186,5 +189,7 @@
 			</p>
 		</div>
 		<?php printAdminToolbox(); ?>
+		
+		<?php printPreloadScript(); ?>
 </body>
 </html>
