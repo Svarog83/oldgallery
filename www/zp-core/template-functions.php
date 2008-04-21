@@ -1488,21 +1488,49 @@ function getPrevImageURL() {
  * Prints out the javascript to preload the next and previous images
  *
  */
-function printPreloadScript() {
+function printPreloadScript() 
+{
 	global $_zp_current_image;
 	$size = getOption('image_size');
-	if (hasNextImage() || hasPrevImage()) {
-		echo "<script type=\"text/javascript\">\n";
-		if (hasNextImage()) {
+	if (hasNextImage() || hasPrevImage()) 
+	{
+		
+?>
+
+<script language="JavaScript">
+<!--
+
+function PreLoadNextImg()
+{
+<?
+	if ( hasNextImage() ) 
+	{
 			$nextimg = $_zp_current_image->getNextImage();
 			echo "  nextimg = new Image();\n  nextimg.src = \"" . $nextimg->getSizedImage($size) . "\";\n";
-		}
-		if (hasPrevImage()) {
+	}
+?>
+	return true;
+}
+
+function PreLoadPrevImg()
+{
+<?
+	if (hasPrevImage()) {
 			$previmg = $_zp_current_image->getPrevImage();
 			echo "  previmg = new Image();\n  previmg.src = \"" . $previmg->getSizedImage($size) . "\";\n";
 		}
+?>
+	return true;
+}
 
-		echo "</script>\n\n";
+setTimeout("PreLoadNextImg()", 5000 );
+setTimeout("PreLoadPrevImg()", 8000 );
+
+
+//-->
+</script>
+
+<?
 	}
 }
 
@@ -3280,6 +3308,23 @@ function printRSSLink($option, $prev, $linktext, $next, $printIcon=true, $class=
 }
 
 /**
+ * Prints a ZIP link
+ *
+ * @param string $option type of RSS (Gallery, Album, Comments)
+ * @param string $prev text to before before the link
+ * @param string $linktext title of the link
+ * @param string $next text to appear after the link
+ * @param string $class css class
+ * @since 1.1
+ */
+function printZIPLink($option, $prev, $linktext, $next, $class=null) {
+	if (!is_null($class)) {
+		$class = 'class="' . $class . '";';
+	}
+	echo $prev."<a $class href=\"http://".$_SERVER['HTTP_HOST'].WEBPATH."/zip.php?albumnr=".getAlbumId()."&albumname=".getAlbumTitle()."\">".$linktext."$icon</a>".$next;
+}
+
+/**
  * Prints the RSS link for use in the HTML HEAD
  *
  * @param string $option type of RSS (Gallery, Album, Comments)
@@ -3739,6 +3784,74 @@ function printCaptcha($preText='', $midText='', $postText='', $size=4) {
 		echo $postText;
 	}
 }
+
+/**
+ * Sends file to user's browser with proper headers for downloading
+ *
+ * @param string $dir - directory name
+ * @param string $file - file name
+ * @param bool $image_show - show is file must be downloaded or shown inline
+ * @param string $name_for_send - name of file to be given to user's browser
+ */
+function SendFile ( $dir, $file, $image_show = 0, $name_for_send = '' )
+{
+		$filename = $dir . $file;
+		if ( !file_exists( $filename ) )
+		{
+			header ( "HTTP/1.0 404 Not Found" );
+			exit;
+		} 
+		$fsize = filesize( $filename );
+		$ftime = date( "D, d M Y H:i:s T", filemtime( $filename ) );
+		$fd = fopen( $filename, "rb" );
+		if ( !$fd )
+		{
+			header ( "HTTP/1.0 403 Forbidden" );
+			exit;
+		} 
+
+		if ( $HTTP_SERVER_VARS["HTTP_RANGE"] )
+		{
+			$range = $HTTP_SERVER_VARS["HTTP_RANGE"];
+			$range = str_replace( "bytes=", "", $range );
+			$range = str_replace( "-", "", $range );
+			if ( $range )
+			{
+				fseek( $fd, $range );
+			} 
+		} 
+		$content = fread( $fd, filesize( $filename ) );
+		fclose( $fd );
+		$etag = md5( $filename . $fsize . $ftime );
+		if ( $range )
+		{
+			header( "HTTP/1.1 206 Partial Content" );
+		} 
+		else
+		{
+			header( "HTTP/1.1 200 OK" );
+		} 
+		if ( !$image_show )
+			header( "Content-Disposition: attachment; filename=". 
+            ( $name_for_send ? $name_for_send : ( $file ? $file : 'print_file.pdf' ) ) );
+		else
+			header( "Content-Disposition: inline; filename=". 
+            ( $name_for_send ? $name_for_send : ( $file ? $file : 'print_file.pdf' ) ) );
+		header( "Last-Modified: " . $ftime );
+		header( "Cache-Control: no-cache, must-revalidate" ); // HTTP/1.1
+		header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); // Date in the past
+		header( 'ETag: "' . $etag . '"' );
+		header( "Accept-Ranges: bytes" );
+		header( "Content-Length: " . ( $fsize - $range ) );
+		header( "Content-Range: bytes " . $range . "-" . ( $fsize-1 ) . "/" . $fsize );
+
+		if ( !$image_show )
+			header( "Content-type: application/download" );
+		else
+			header( "Content-type: image/pjpeg" );
+			
+		print $content;
+} // function
 
 /*** End template functions ***/
 
