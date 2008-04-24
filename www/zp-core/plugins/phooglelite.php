@@ -175,7 +175,7 @@ function setMapType($type) { $this->defaultType = $type; }
  		*/
 		function printGoogleJS(){
 				echo "\n";
-				echo '<script src="http://maps.google.com/maps?file=api&v=2&key=' .
+				echo '<script src="http://maps.google.com/maps?hl=en&file=api&v=2&key=' .
 						$this->apiKey .'" type="text/javascript"></script>';
 				echo "\n";
 		}
