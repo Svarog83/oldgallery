@@ -212,6 +212,7 @@ if (zp_loggedin()) { /* Display the admin pages. Do action handling first. */
 		} else if ($action == "save") {
 
 			/** SAVE A SINGLE ALBUM *******************************************************/
+			
 			if ($_POST['album']) {
 
 				$folder = queryDecode(strip($_POST['album']));

@@ -1523,8 +1523,8 @@ function PreLoadPrevImg()
 	return true;
 }
 
-setTimeout("PreLoadNextImg()", 5000 );
-setTimeout("PreLoadPrevImg()", 8000 );
+setTimeout("PreLoadNextImg()", 1000 );
+setTimeout("PreLoadPrevImg()", 3000 );
 
 
 //-->
@@ -3308,23 +3308,6 @@ function printRSSLink($option, $prev, $linktext, $next, $printIcon=true, $class=
 }
 
 /**
- * Prints a ZIP link
- *
- * @param string $option type of RSS (Gallery, Album, Comments)
- * @param string $prev text to before before the link
- * @param string $linktext title of the link
- * @param string $next text to appear after the link
- * @param string $class css class
- * @since 1.1
- */
-function printZIPLink($option, $prev, $linktext, $next, $class=null) {
-	if (!is_null($class)) {
-		$class = 'class="' . $class . '";';
-	}
-	echo $prev."<a $class href=\"http://".$_SERVER['HTTP_HOST'].WEBPATH."/zip.php?albumnr=".getAlbumId()."&albumname=".getAlbumTitle()."\">".$linktext."$icon</a>".$next;
-}
-
-/**
  * Prints the RSS link for use in the HTML HEAD
  *
  * @param string $option type of RSS (Gallery, Album, Comments)
@@ -3856,7 +3839,7 @@ function SendFile ( $dir, $file, $image_show = 0, $name_for_send = '' )
 function Translit( $text ) 
 {
 	$search = array ("'А'","'Б'","'В'","'Г'","'Д'","'Е'","'Ё'","'Ж'","'З'", 
-	                 "'И'","'Й'","'К'","'Л'","'М'","'Н'","'О'","'П'","'Р'", 
+	                 "'�?'","'Й'","'К'","'Л'","'М'","'Н'","'О'","'П'","'Р'", 
 	                 "'С'","'Т'","'У'","'Ф'","'Х'","'Ц'","'Ч'","'Ш'","'Щ'", 
 	                 "'Ъ'","'Ы'","'Ь'","'Э'","'Ю'","'Я'","'а'","'б'","'в'", 
 	                 "'г'","'д'","'е'","'ё'","'ж'","'з'","'и'","'й'","'к'", 
@@ -3877,7 +3860,187 @@ function Translit( $text )
 	return $text;
 } // function
 
+function ShowGoogleMap()
+{
+	global $_zp_current_image, $_zp_conf_vars;
+	
+	$lat  = $_zp_current_image->get( 'EXIFGPSLatitude' );
+	$long = $_zp_current_image->get( 'EXIFGPSLongitude' );
+	
+	$city 		= $_zp_current_image->getCity();
+	$country 	= $_zp_current_image->getCountry();
+	$location = ( $city ? $city : '' ) . ( $city && $country ? ',+' : '' ) . ( $country ? $country : '' );
+	
+	if ( !$lat || !$long )
+	{
+		if ( $city || $country )
+		{	
+			GetCoords( $location, &$lat, &$long );
+			
+			if ( $lat && $long )
+			{
+				 $_zp_current_image->set( 'EXIFGPSLatitude', $lat );
+				 $_zp_current_image->set( 'EXIFGPSLongitude', $long );
+				 $_zp_current_image->save();
+			}
+			
+		}
+	}
+	
+	if ( $long && $lat )
+	{
+		$arr = array();
+		$arr[$location]['lat'] = $lat;
+		$arr[$location]['long'] = $long;
+		
+		DrawMap( $arr, '6', false );
+	}
+}
+
+/**
+ * Prints a ZIP link
+ *
+ * @param string $option type of RSS (Gallery, Album, Comments)
+ * @param string $prev text to before before the link
+ * @param string $linktext title of the link
+ * @param string $next text to appear after the link
+ * @param string $class css class
+ * @since 1.1
+ */
+function printZIPLink($option, $prev, $linktext, $next, $class=null) {
+	if (!is_null($class)) {
+		$class = 'class="' . $class . '";';
+	}
+	echo $prev."<a $class href=\"http://".$_SERVER['HTTP_HOST'].WEBPATH."/zip.php?albumnr=".getAlbumId()."&albumname=".getAlbumTitle()."\">".$linktext."$icon</a>".$next;
+}
+
+function ShowAlbumMap()
+{
+	$id = getAlbumId();
+	
+	$query = "	
+		SELECT 
+	id,
+	city,
+	country,
+	EXIFGPSLatitude,
+	EXIFGPSLongitude
+		FROM 
+	" . prefix('images') . " AS images 
+		WHERE 
+	images.albumid = $id &&
+	images.show=1
+		
+	";
+	$result = query_full_array( $query );
+	$coords = array();
+	
+	foreach ( $result AS $row )
+	{
+		$city 	 = $row['city'];
+		$country = $row['country'];
+		$lat 	 = $row['EXIFGPSLatitude'];
+		$long 	 = $row['EXIFGPSLongitude'];
+		
+		if ( $city || $country )
+			$location = ( $city ? $city : '' ) . ( $city && $country ? ',+' : '' ) . ( $country ? $country : '' );
+		else 
+			$location = '';
+		
+		if ( $location && !isset ( $coords[$location] ) && ( !$lat || !$long ) )
+		{
+			GetCoords( $location, &$lat, &$long );
+			$lat = doubleval( $lat );
+			$long = doubleval( $long );
+			
+			if ( $lat && $long )
+			{
+				$query = "UPDATE " . prefix('images') . " SET EXIFGPSLatitude = $lat, EXIFGPSLongitude = $long WHERE id = {$row['id']}";
+				query( $query );
+			}
+		}
+		
+		if ( $lat && $long )
+		{
+			$coords[$location]['lat'] = $lat;
+			$coords[$location]['long'] = $long;
+		}
+	}
+	
+	DrawMap( $coords, '5', true );
+	
+}
+
+function DrawMap( $coords, $zoom = 6, $show = false )
+{
+	if ( is_array( $coords ) && count ( $coords ) )
+	{
+	
+		foreach ( $coords AS $location => $arr )
+		{
+			$lat  = $arr['lat'];
+			$long = $arr['long'];
+			break;
+		}
+?>
+
+   
+<script type="text/javascript">
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map_canvas"), { size: new GSize(400,350) } );
+        map.setCenter(new GLatLng(<?= $lat?>, <?=$long ?>), 6);
+        var mapControl = new GMapTypeControl();
+		map.addControl(mapControl);
+        map.addControl(new GLargeMapControl());
+        
+        <? foreach ( $coords AS $location => $arr ): ?>
+        var point = new GLatLng(<?=$arr['lat'] ?>, <?= $arr['long']?>);
+        var marker = new GMarker(point, { title: '<?= str_replace ( '+', ' ', $location )?>'} );
+        map.addOverlay(marker);
+        <? endforeach; ?>
+        
+      }
+    }
+
+    </script>
+    
+    <center>
+    <div onclick="ShowMap();" style="font-weight:bold; cursor:pointer; text-decoration: underline;" id="span_show">Показать карту</div>
+    
+    <div id="map_canvas" style="width: 500px; height: 300px; display:none;"></div>
+    
+    <script language="JavaScript">
+<!--
+
+var map_shown = false;
+
+function ShowMap()
+{
+	
+	var shown = document.getElementById( 'map_canvas' ).style.display;
+	document.getElementById( 'span_show' ).innerHTML = ( shown == 'block' ? 'Показать карту' : 'Скрыть карту' );
+	document.getElementById( 'map_canvas' ).style.display = ( ( shown == 'none' ? 'block' : 'none' ) );
+	if ( !map_shown )
+	{
+		initialize();
+		map_shown = true;
+	}
+}
+
+<? if ( $show ): ?>
+ShowMap();
+<?endif;?>
+
+
+//-->
+</script>
+
+</center>
+
+<?
+	}
+}
 
 /*** End template functions ***/
-
-?>

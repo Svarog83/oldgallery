@@ -1888,4 +1888,52 @@ function generateCaptcha(&$image) {
 
 	return $code;
 }
-?>
+
+
+/*
+	Svarog functions!
+
+*/
+function GetCoords( $location, &$lat, &$long )
+{
+	$location = str_replace ( ' ', '+', $location );
+	global $_zp_conf_vars;
+	$arr = @file( "http://maps.google.com/maps/geo?q=$location&output=json&key={$_zp_conf_vars['gmaps_apikey']}" );
+	if ( is_array ( $arr ) )
+	{
+		$arr = json_decode ( $arr[0], true );
+		list ( $long, $lat, $alt ) = $arr['Placemark'][0]['Point']['coordinates'];
+	}
+	else 
+	{
+		$lat = $long = 0;
+	}
+}
+
+function updateAlbumImagesCoords( $location, $id )
+{
+	if ( $location && $id )
+	{
+		list ( $city, $country ) = explode ( ',', $location );
+		$city = mysql_real_escape_string( trim( $city ) );
+		$country = mysql_real_escape_string( trim ( $country ) );
+		
+		if ( $city && !$country )
+		{
+			$country = $city;
+			$city = '';
+		}
+		
+		if ( $city )
+		{
+			$query = "UPDATE " . prefix('images') . " SET city = '$city' WHERE albumid = $id && ( city = '' || city IS NULL )";
+			query ( $query );
+		}
+		
+		if ( $country )
+		{
+			$query = "UPDATE " . prefix('images') . " SET country = '$country' WHERE albumid = $id && ( country = '' || country IS NULL )";
+			query ( $query );
+		}
+	}
+}

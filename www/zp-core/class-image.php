@@ -61,7 +61,8 @@ class Image extends PersistentObject {
 
 		// This is where the magic happens...
 		$new = parent::PersistentObject('images', array('filename'=>$filename, 'albumid'=>$this->album->id), 'filename');
-		if ($new) {
+		if ($new) 
+		{
 			$metadata = getImageMetadata($this->localpath);
 			if (isset($metadata['date'])) {
 				$newDate = $metadata['date'];
@@ -110,7 +111,13 @@ class Image extends PersistentObject {
 				$this->setCopyright($metadata['copyright']);
 			}
 			$this->set('mtime', filemtime($this->localpath));
+			
 			$this->save();
+			
+			$id = (int)$this->album->getAlbumId();
+			$location = $this->album->getPlace();
+			
+			updateAlbumImagesCoords( $location, $id );
 		}
 
 

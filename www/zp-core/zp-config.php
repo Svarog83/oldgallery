@@ -1,5 +1,6 @@
 <?php /* PUT NOTHING BEFORE THIS LINE, not even a line break! */
 $conf = array();
+$local_server = ( strpos( $_SERVER['HTTP_HOST'], 'gallery.ru' ) !== true ? true : false );
 
 /** Do not edit above this line. **/
 /**********************************/
@@ -18,10 +19,21 @@ $conf = array();
 // Database Information (the most important part!)
 ////////////////////////////////////////////////////////////////////////////////
 
-$conf['mysql_user'] = "svar_zenphoto";
-$conf['mysql_pass'] = "dtnjrhtc";
-$conf['mysql_host'] = "mysql1063.servage.net"; // Won't need to change this 90% of the time.
-$conf['mysql_database'] = "svar_zenphoto";
+if ( $local_server )
+{
+	$conf['mysql_user'] = "root";
+	$conf['mysql_pass'] = "";
+	$conf['mysql_host'] = "localhost"; // Won't need to change this 90% of the time.
+	$conf['mysql_database'] = "gallery";
+}
+else 
+{
+	$conf['mysql_user'] = "svar_zenphoto";
+	$conf['mysql_pass'] = "dtnjrhtc";
+	$conf['mysql_host'] = "mysql1063.servage.net"; // Won't need to change this 90% of the time.
+	$conf['mysql_database'] = "svar_zenphoto";
+
+}
 
 // If you're sharing the database with other tables, use a prefix to be safe.
 $conf['mysql_prefix'] = "zp_";
@@ -60,5 +72,4 @@ $conf['server_protocol'] = "http";
 
 $_zp_conf_vars = $conf;
 unset($conf);
-
 ?>

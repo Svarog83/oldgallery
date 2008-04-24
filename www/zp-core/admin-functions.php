@@ -424,7 +424,7 @@ function printAlbumEditForm($index, $album) {
 
 	echo "\n<tr><td align=\"right\" valign=\"top\">Date: </td> <td><input type=\"text\" name=\"".$prefix."albumdate\" value=\"" . $d . '" /></td></tr>';
 	echo "\n<tr><td align=\"right\" valign=\"top\">Location: </td> <td><input type=\"text\" name=\"".$prefix."albumplace\" class=\"tags\" value=\"" .
-	$album->getPlace() . "\" /></td></tr>";
+	$album->getPlace() . "\" />(Format: City, Country)</td></tr>";
 	echo "\n<tr><td align=\"right\" valign=\"top\">Custom data: </td> <td><input type=\"text\" name=\"".
 	$prefix."album_custom_data\" class=\"tags\" value=\"" .
 	$album->getCustomData() . "\" /></td></tr>";
@@ -762,6 +762,13 @@ function processAlbumEdit($index, $album) {
 	$album->setPasswordHint(strip($_POST[$prefix.'albumpass_hint']));
 	$album->setCustomData(strip($_POST[$prefix.'album_custom_data']));
 	$album->save();
+	
+	$location = strip( $_POST[$prefix.'albumplace' ] );
+	$id = (int)$album->getAlbumId();
+	
+	updateAlbumImagesCoords( $location, $id );
+	
+	
 	return $notify;
 }
 
