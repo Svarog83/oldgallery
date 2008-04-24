@@ -1,6 +1,7 @@
 <?php /* PUT NOTHING BEFORE THIS LINE, not even a line break! */
 $conf = array();
-$local_server = ( strpos( $_SERVER['HTTP_HOST'], 'gallery.ru' ) !== true ? true : false );
+
+$local_server = ( strpos( $_SERVER['HTTP_HOST'], 'gallery.ru' ) === false ? false : true );
 
 /** Do not edit above this line. **/
 /**********************************/
