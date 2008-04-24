@@ -3,6 +3,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+
+<? if ( !$local_server ): ?>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -12,6 +14,7 @@ var pageTracker = _gat._getTracker("UA-4193855-1");
 pageTracker._initData();
 pageTracker._trackPageview();
 </script>
+<? endif; ?>
 	<title><?php echo getImageTitle();?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="<?php echo $_zp_themeroot ?>/css/master.css" />
@@ -82,8 +85,10 @@ pageTracker._trackPageview();
  					</li>
 				</ul>
 			</div>
-
-			<div class="main">
+			
+			<? ShowGoogleMap(); ?>
+			
+				<div class="main">
 				<?php if (getOption('Allow_comments')) { ?>
 					<!-- BEGIN #commentblock -->
 					<div id="commentblock">

@@ -11,6 +11,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+<? if ( !$local_server ): ?>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -20,6 +21,7 @@ var pageTracker = _gat._getTracker("UA-4193855-1");
 pageTracker._initData();
 pageTracker._trackPageview();
 </script>
+<? endif; ?>
 	<title><?php printGalleryTitle() . " > " . getAlbumTitle();?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="<?php echo $_zp_themeroot ?>/css/master.css" />
@@ -41,7 +43,8 @@ pageTracker._trackPageview();
 
 		<?php
 				$first = true;
-				while (next_album()) { 
+				while (next_album()) 
+				{ 
 					if ($first) {
 						echo '<div class="galleries">';
 						echo "\n<h2></h2>\n<ul>\n";
@@ -130,6 +133,9 @@ pageTracker._trackPageview();
 
 		<p id="path"><?php printHomeLink('', ' > '); ?><a href="<?php echo getGalleryIndexURL();?>" title="Все альбомы"><?php echo getGalleryTitle();?></a> &gt; <?php printParentBreadcrumb("", " > ", " > "); ?> <?php printAlbumTitle(false);?></p>  
 
+		
+		<? ShowAlbumMap() ?>
+		
 		<div id="footer">
 			<hr />
 			<p>Powered by <a href="http://www.zenphoto.org">ZenPhoto</a>.</p>
