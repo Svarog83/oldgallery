@@ -3914,10 +3914,8 @@ function printZIPLink($option, $prev, $linktext, $next, $class=null) {
 	echo $prev."<a $class href=\"http://".$_SERVER['HTTP_HOST'].WEBPATH."/zip.php?albumnr=".getAlbumId()."&albumname=".getAlbumTitle()."\">".$linktext."$icon</a>".$next;
 }
 
-function ShowAlbumMap()
+function ShowAlbumMap( $id = 0, $zoom = 5 )
 {
-	$id = getAlbumId();
-	
 	$query = "	
 		SELECT 
 	id,
@@ -3928,7 +3926,7 @@ function ShowAlbumMap()
 		FROM 
 	" . prefix('images') . " AS images 
 		WHERE 
-	images.albumid = $id &&
+	" . ( $id ? "images.albumid = $id && " : '' ) . "
 	images.show=1
 		
 	";
@@ -3960,14 +3958,14 @@ function ShowAlbumMap()
 			}
 		}
 		
-		if ( $lat && $long )
+		if ( $lat && $long && !isset ( $coords[$location] ) )
 		{
 			$coords[$location]['lat'] = $lat;
 			$coords[$location]['long'] = $long;
 		}
 	}
 	
-	DrawMap( $coords, '5', true );
+	DrawMap( $coords, $zoom, true );
 	
 }
 
@@ -3989,8 +3987,8 @@ function DrawMap( $coords, $zoom = 6, $show = false )
 
     function initialize() {
       if (GBrowserIsCompatible()) {
-        var map = new GMap2(document.getElementById("map_canvas"), { size: new GSize(400,350) } );
-        map.setCenter(new GLatLng(<?= $lat?>, <?=$long ?>), 6);
+        var map = new GMap2(document.getElementById("map_canvas"), { size: new GSize(500,400) } );
+        map.setCenter(new GLatLng(<?= $lat?>, <?=$long ?>), <?= $zoom?> );
         var mapControl = new GMapTypeControl();
 		map.addControl(mapControl);
         map.addControl(new GLargeMapControl());
@@ -4006,10 +4004,10 @@ function DrawMap( $coords, $zoom = 6, $show = false )
 
     </script>
     
-    <center>
+    <div align="center">
     <div onclick="ShowMap();" style="font-weight:bold; cursor:pointer; text-decoration: underline;" id="span_show">Показать карту</div>
     
-    <div id="map_canvas" style="width: 500px; height: 300px; display:none;"></div>
+    <div id="map_canvas" style="width: 600px; height: 400px; display:none;"></div>
     
     <script language="JavaScript">
 <!--
@@ -4037,7 +4035,7 @@ ShowMap();
 //-->
 </script>
 
-</center>
+</div>
 
 <?
 	}

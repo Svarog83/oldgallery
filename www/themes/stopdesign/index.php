@@ -130,7 +130,11 @@ pageTracker._trackPageview();
 			</div>
 		</div>
 	</div>
-	<p id="path"><?php printHomeLink('', ' > '); echo getGalleryTitle(); ?></p>  
+	<p id="path"><?php printHomeLink('', ' > '); echo getGalleryTitle(); ?></p> 
+
+	<? 	ShowAlbumMap( 0, 1 ) ?>
+		
+	
 	<div id="footer">
 		<hr />
 		<p>

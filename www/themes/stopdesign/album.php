@@ -134,7 +134,9 @@ pageTracker._trackPageview();
 		<p id="path"><?php printHomeLink('', ' > '); ?><a href="<?php echo getGalleryIndexURL();?>" title="Все альбомы"><?php echo getGalleryTitle();?></a> &gt; <?php printParentBreadcrumb("", " > ", " > "); ?> <?php printAlbumTitle(false);?></p>  
 
 		
-		<? ShowAlbumMap() ?>
+		<? 
+		$id = getAlbumId();
+		ShowAlbumMap( $id, 5 ) ?>
 		
 		<div id="footer">
 			<hr />
