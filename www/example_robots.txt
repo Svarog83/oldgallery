@@ -9,7 +9,7 @@ where you have installed your zenphoto gallery.
 
 Delete these comments and rename the file robots.txt.
 Place it in the root folder of your web pages.
-****delete all lines above and including this one *******
+****delete all lines above and including this one some changes *******
 User-agent: *
 Disallow: /zenphoto/albums
 Disallow: /zenphoto/cache
