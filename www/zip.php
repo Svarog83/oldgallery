@@ -70,6 +70,8 @@ if ( $folder )
 																		 PCLZIP_OPT_NO_COMPRESSION );
 	}
 	
-	SendFile( './cache/', $albumname . '.zip' );
+	//SendFile( './cache/', $albumname . '.zip' );
+	
+	header('Location: http://' . $_SERVER['SERVER_NAME'] . '/cache/'. $albumname . '.zip');
 }
 

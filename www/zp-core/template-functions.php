@@ -3911,11 +3911,17 @@ function printZIPLink($option, $prev, $linktext, $next, $class=null) {
 	if (!is_null($class)) {
 		$class = 'class="' . $class . '";';
 	}
-	echo $prev."<a $class href=\"http://".$_SERVER['HTTP_HOST'].WEBPATH."/zip.php?albumnr=".getAlbumId()."&albumname=".getAlbumTitle()."\">".$linktext."$icon</a>".$next;
+	$arr = getAlbumCustomData();
+	$id = getAlbumId();
+	$query = "SELECT password FROM zp_albums WHERE id=$id";
+	$row = query_full_array( $query );
+    if ( !$row[0]['password'] )
+    	echo $prev."<a $class href=\"http://".$_SERVER['HTTP_HOST'].WEBPATH."/zip.php?albumnr=".getAlbumId()."&albumname=".getAlbumTitle()."\">".$linktext."$icon</a>".$next;
 }
 
 function ShowAlbumMap( $id = 0, $zoom = 5 )
 {
+	return true;
 	$query = "	
 		SELECT 
 	id,
@@ -3971,6 +3977,7 @@ function ShowAlbumMap( $id = 0, $zoom = 5 )
 
 function DrawMap( $coords, $zoom = 6, $show = false )
 {
+	return true;
 	if ( is_array( $coords ) && count ( $coords ) )
 	{
 	

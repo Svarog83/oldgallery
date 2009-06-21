@@ -87,7 +87,6 @@ pageTracker._trackPageview();
 		
 		<ul class="slideset">
 		<?php  
-
 			$firstImage = null;
 			$lastImage = null;
 			while (next_image(false, $firstPageImages)) { 
@@ -134,14 +133,17 @@ pageTracker._trackPageview();
 		<p id="path"><?php printHomeLink('', ' > '); ?><a href="<?php echo getGalleryIndexURL();?>" title="Все альбомы"><?php echo getGalleryTitle();?></a> &gt; <?php printParentBreadcrumb("", " > ", " > "); ?> <?php printAlbumTitle(false);?></p>  
 
 		
+		
+		
+		<!--<div id="footer">
+			<hr />
+			<p>Powered by <a href="http://www.zenphoto.org">ZenPhoto</a>.</p>
+		</div>-->
+		<div id="footer"></div>
 		<? 
 		$id = getAlbumId();
 		ShowAlbumMap( $id, 5 ) ?>
 		
-		<div id="footer">
-			<hr />
-			<p>Powered by <a href="http://www.zenphoto.org">ZenPhoto</a>.</p>
-		</div>
 		<?php printAdminToolbox(); ?>
 </body>
 </html>

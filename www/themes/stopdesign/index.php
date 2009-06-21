@@ -33,7 +33,7 @@ pageTracker._trackPageview();
 		<div class="galleries">
 				<h2>Недавние обновления</h2>
 				<ul>
-					<?php $counter = 0; while (next_album() and $counter < 6): ?>
+					<?php $counter = 0; while (next_album( ) and $counter < 20): ?>
 						<li class="gal">
 							<h3><a href="<?php echo getAlbumLinkURL();?>" title="Посмотреть альбом: <?php echo getAlbumTitle();?>"><?php printAlbumTitle(); ?></a></h3>
 							<a href="<?php echo getAlbumLinkURL();?>" title="Посмотреть альбом: <?php echo getAlbumTitle();?>" class="img"><?php printCustomAlbumThumbImage(getAlbumTitle(), null, 210, 59, 210, 59); ?></a>
@@ -132,16 +132,19 @@ pageTracker._trackPageview();
 	</div>
 	<p id="path"><?php printHomeLink('', ' > '); echo getGalleryTitle(); ?></p> 
 
-	<? 	ShowAlbumMap( 0, 1 ) ?>
+	
 		
 	
 	<div id="footer">
-		<hr />
+		<!--<hr />
 		<p>
 			<a href="http://stopdesign.com/templates/photos/">Photo Templates</a> from Stopdesign.
 			Powered by <a href="http://www.zenphoto.org">ZenPhoto</a>.
-		</p>
+		</p>-->
+	
 	</div>
+	
+	<? 	ShowAlbumMap( 0, 1 ) ?>
 
 	<?php printAdminToolbox(ZP_INDEX); ?>
 
