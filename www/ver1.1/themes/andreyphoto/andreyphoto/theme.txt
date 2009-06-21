@@ -1,0 +1,6 @@
+# Zenphoto theme definition file
+name::AndreyPhoto
+author::Andrey Samodeenko
+version::1.1
+date::11/09/2007
+desc::Custom theme designed by <a href="http://www.andreyphoto.com">Andrey Samodeenko</a>

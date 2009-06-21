@@ -1,0 +1,56 @@
+Stoppeddesign theme 1.0 for zenphoto 1.06 beta
+
+8/1/07 
+
+by Ben Spicer
+
+NOTE: This guide is for ZenPhoto 1.06, if you are using an earlier version, please update it before using this guide.
+
+-----------------
+
+Installation Guide
+
+** in zp-config.php:
+
+Make sure to make use of website_title and website_url on lines 40 and 41.
+For example:
+$conf['website_title'] = "BenSpicer.com";
+$conf['website_url'] = "http://www.benspicer.com"; 
+
+Change lines 94 and 95 to 80 instead of 85:
+
+$conf['thumb_crop_width']  = 80;
+$conf['thumb_crop_height'] = 80;
+
+Change lines 101 and 102.  Change albums_per page to 99, and change images_per_page to however many images you would like to display on one album page (if you have more then they will go to page 2).  
+Try different numbers in each album and see how it looks - I like 25.
+
+$conf['albums_per_page'] = 99;
+$conf['images_per_page'] = 20;
+
+** Go to:
+yourwebsite.com/zen/themes/stoppeddesign/index.php
+go to line 40 and edit:
+<p>Photo Gallery</p>
+to something more imaginative and descriptive, such as:
+<p>Hi, this is my awesome photo gallery of awesome photos, taken with my awesome -insert camera name- camera</p>
+
+Enjoy, the Stoppeddesign theme should now be working for you :)
+
+---
+If there are any bugs, please let me know via the contact form on my site: 
+http://www.benspicer.com/contact and I'll get them fixed and the download updated ASAP.
+
+A big thanks to Doug Bowman for originally creating this, and to Sjard Bleecken for originally porting it to ZenPhoto.
+
+-----------------
+
+License & Terms
+This gallery design and set of template files that recreate it are licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License (http://creativecommons.org/licenses/by-nc-sa/2.5/). 
+You’re free to download, use, modify, and repurpose these templates in any way you wish, as long as they’re not used, bartered, or sold for commercial purposes. 
+If you redistribute any work, you must release it under the same license. Please include credit to the original designer/author (http://www.stopdesign.com/templates/photos/), and include a visible link back to the original download and documentation page.
+
+±±±
+
+Ben Spicer
+http://www.benspicer.com
