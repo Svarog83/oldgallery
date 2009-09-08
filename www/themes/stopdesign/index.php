@@ -3,6 +3,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+  <meta name="verify-v1" content="DjlA9PXAtl4KzLtgtkukwzj0+IZ4BK3rWMY7XSIlvIk=" />
+  <meta name="Author" content="Ветко Сергей">
+  <meta name="Keywords" content="Ветко Сергей фотографии галерея альбом фотки путешествия командировки города страны">
+  <meta name="Description" content="Фотографии Сергея Ветко из разных поездок и мероприятий">
 <? if ( !$local_server ): ?>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
