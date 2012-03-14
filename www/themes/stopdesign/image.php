@@ -40,7 +40,7 @@ pageTracker._trackPageview();
 
 			<div id="desc" style="z-index: 100">
 				<?php if (!checkForPassword(true)) { ?>
-					<h1><?php printImageTitle(true); ?></h1>
+					<h1><?php /*printImageTitle(true);*/ ?></h1>
 					<?php printImageDesc(true); ?>
 				<?php } ?>
 			</div>
@@ -86,7 +86,7 @@ pageTracker._trackPageview();
 				</ul>
 			</div>
 			
-			<? ShowGoogleMap(); ?>
+			<? /*ShowGoogleMap();*/ ?>
 			
 				<div class="main">
 				<?php if (getOption('Allow_comments')) { ?>
